@@ -1,14 +1,14 @@
+//import { GROQ_API_KEY } from "@env";
+
 const API_KEY = "";
 
 export async function sendMessage(userMessage, conversationHistory = []) {
   try {
-    // Build messages from history
     const messages = conversationHistory.map((msg) => ({
       role: msg.role === "user" ? "user" : "assistant",
       content: msg.parts[0].text,
     }));
 
-    // add message
     messages.push({
       role: "user",
       content: userMessage,
@@ -24,7 +24,7 @@ export async function sendMessage(userMessage, conversationHistory = []) {
         },
         body: JSON.stringify({
           model: "llama-3.3-70b-versatile",
-          messages: messages,
+          messages,
           max_tokens: 1000,
           temperature: 0.7,
         }),
@@ -43,7 +43,7 @@ export async function sendMessage(userMessage, conversationHistory = []) {
       throw new Error("Over limit. Waiting 1 minute!");
     }
     if (error.message?.includes("rate_limit")) {
-      throw new Error("To much requests. Try agian!");
+      throw new Error("Too much requests. Try again!");
     }
     throw new Error(error.message || "Error connect");
   }
