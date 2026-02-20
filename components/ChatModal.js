@@ -213,7 +213,7 @@ Could not find weather data for "${cityName}". Politely say so and offer current
         >
           {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.title}>💬 AI Chat</Text>
+            <Text style={styles.title}>💬 AI Weather Chat</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
               <Text style={styles.closeText}>✕</Text>
             </TouchableOpacity>
@@ -228,8 +228,7 @@ Could not find weather data for "${cityName}". Politely say so and offer current
           >
             {messages.length === 0 && (
               <Text style={styles.placeholder}>
-                Hello! Ask me about the weather in{" "}
-                {placeName || "your location"} 😊
+                Hello! Ask me about the weather 😊
               </Text>
             )}
 
