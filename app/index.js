@@ -18,9 +18,14 @@ import { theme } from "../weather/theme";
 import { useLocation } from "../weather/useLocation";
 import { useWeather } from "../weather/useWeather";
 
+// Import chat components
+import ChatButton from "../components/ChatButton";
+import ChatModal from "../components/ChatModal";
+
 export default function HomeScreen() {
   const [tab, setTab] = useState("hourly"); // "hourly" | "daily"
   const [unit, setUnit] = useState("c"); // "c" | "f"
+  const [chatVisible, setChatVisible] = useState(false); // Chat modal state
 
   const { coords, placeName, locationError, redetect } = useLocation();
   const { data, error: apiError, refreshing, refresh } = useWeather(coords);
@@ -116,38 +121,52 @@ export default function HomeScreen() {
   }
 
   return (
-    <ScrollView
-      style={styles.page}
-      contentContainerStyle={styles.content}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={refresh} />
-      }
-    >
-      <HeaderBar
+    <View style={{ flex: 1, backgroundColor: theme.bg }}>
+      <ScrollView
+        style={styles.page}
+        contentContainerStyle={styles.content}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+        }
+      >
+        <HeaderBar
+          placeName={placeName}
+          coords={coords}
+          unit={unit}
+          onToggleUnit={() => setUnit((u) => (u === "c" ? "f" : "c"))}
+          onRedetect={redetect}
+          error={error}
+        />
+
+        <CurrentCard current={data?.current} unit={unit} />
+
+        <SegmentedTabs tab={tab} setTab={setTab} />
+
+        <ChartCard
+          tab={tab}
+          unit={unit}
+          hourlyItems={hourlyItems}
+          dailyItems={dailyItems}
+          hourlyChartData={hourlyChartData}
+          dailyChartDataMax={dailyChartDataMax}
+          dailyChartDataMin={dailyChartDataMin}
+        />
+
+        <Text style={styles.footer}>Pull down to refresh</Text>
+      </ScrollView>
+
+      {/* Floating Chat Button */}
+      <ChatButton onPress={() => setChatVisible(true)} />
+
+      {/* Chat Modal - PASS WEATHER DATA */}
+      <ChatModal
+        visible={chatVisible}
+        onClose={() => setChatVisible(false)}
+        weatherData={data}
         placeName={placeName}
-        coords={coords}
         unit={unit}
-        onToggleUnit={() => setUnit((u) => (u === "c" ? "f" : "c"))}
-        onRedetect={redetect}
-        error={error}
       />
-
-      <CurrentCard current={data?.current} unit={unit} />
-
-      <SegmentedTabs tab={tab} setTab={setTab} />
-
-      <ChartCard
-        tab={tab}
-        unit={unit}
-        hourlyItems={hourlyItems}
-        dailyItems={dailyItems}
-        hourlyChartData={hourlyChartData}
-        dailyChartDataMax={dailyChartDataMax}
-        dailyChartDataMin={dailyChartDataMin}
-      />
-
-      <Text style={styles.footer}>Pull down to refresh</Text>
-    </ScrollView>
+    </View>
   );
 }
 
