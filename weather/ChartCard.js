@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
-import { chipLabel, weatherCodeText } from "./openMeteo";
+import { StyleSheet, Text, View } from "react-native";
+import { chipLabel } from "./openMeteo";
 import { theme } from "./theme";
 import {
   VictoryAxis,
@@ -17,17 +17,7 @@ function ChartWrapper({ children }) {
   );
 }
 
-function Row({ left, mid, right, first }) {
-  return (
-    <View style={[styles.row, !first && styles.rowBorder]}>
-      <Text style={styles.rowLeft}>{left}</Text>
-      <Text style={styles.rowMid}>{mid}</Text>
-      <Text style={styles.rowRight} numberOfLines={1}>
-        {right}
-      </Text>
-    </View>
-  );
-}
+
 
 const CHART = {
   lineHourly: "#4FC3F7",
@@ -157,17 +147,7 @@ export default function ChartCard({
           </View>
         )}
 
-        <View style={styles.listSection}>
-          {hourlyItems.slice(0, 8).map((h, idx) => (
-            <Row
-              key={h.time}
-              first={idx === 0}
-              left={h.label}
-              mid={`${h.temp.toFixed(1)}${chipLabel(unit)}`}
-              right={`POP ${h.pop}% · Wind ${h.wind} km/h`}
-            />
-          ))}
-        </View>
+        
       </View>
     );
   }
@@ -239,17 +219,7 @@ export default function ChartCard({
           />
         </VictoryChart>
       </ChartWrapper>
-      <View style={styles.listSection}>
-        {dailyItems.map((d, idx) => (
-          <Row
-            key={d.day}
-            first={idx === 0}
-            left={d.label}
-            mid={`${d.min.toFixed(0)}°–${d.max.toFixed(0)}°${chipLabel(unit)}`}
-            right={`${weatherCodeText(d.code)} · Rain ${d.rain ?? 0} mm`}
-          />
-        ))}
-      </View>
+      
     </View>
   );
 }
@@ -275,11 +245,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 10,
   },
-  row: { flexDirection: "row", alignItems: "center", paddingVertical: 12 },
-  rowBorder: { borderTopWidth: 0.5, borderTopColor: "rgba(255,255,255,0.1)" },
-  rowLeft: { width: 50, color: "#ffffff", fontWeight: "600", fontSize: 13 },
-  rowMid: { width: 110, color: "#ffffff", fontWeight: "700", fontSize: 13 },
-  rowRight: { flex: 1, color: "#cccccc", fontSize: 11, textAlign: "right" },
+  
   selectedInfo: {
     backgroundColor: "#1e293b",
     padding: 10,
