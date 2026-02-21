@@ -1,4 +1,6 @@
-const GROQ_KEY = "";
+//import { GROQ_API_KEY } from "@env";
+
+const API_KEY = ""; //GROQ_API_KEY
 
 async function testGroq() {
   try {
