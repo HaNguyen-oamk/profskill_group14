@@ -12,6 +12,9 @@ import ChartCard from "../weather/ChartCard";
 import CurrentCard from "../weather/CurrentCard";
 import HeaderBar from "../weather/HeaderBar";
 import SegmentedTabs from "../weather/SegmentedTabs";
+import HourlyList from "../weather/HourlyList";
+import DailyForecastList from "../weather/DailyForecastList";
+
 
 import { cToF, chipLabel, formatDay, formatHour } from "../weather/openMeteo";
 import { theme } from "../weather/theme";
@@ -145,6 +148,12 @@ export default function HomeScreen() {
         dailyChartDataMax={dailyChartDataMax}
         dailyChartDataMin={dailyChartDataMin}
       />
+      {tab === "hourly" ? (
+  <HourlyList hourlyItems={hourlyItems} unit={unit} limit={12} />
+) : (
+  <DailyForecastList dailyItems={dailyItems} unit={unit} limit={7} />
+)}
+
 
       <Text style={styles.footer}>Pull down to refresh</Text>
     </ScrollView>
@@ -153,7 +162,15 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   page: { flex: 1, backgroundColor: theme.bg },
-  content: { padding: 16, paddingBottom: 28, gap: 12 },
+  content: {
+    padding: 16,
+    paddingBottom: 28,
+    gap: 12,
+    maxWidth: 520,
+    alignSelf: "center",
+    width: "100%",
+  },
+  
 
   center: {
     flex: 1,
