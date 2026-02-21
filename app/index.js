@@ -140,11 +140,11 @@ export default function HomeScreen() {
           onRedetect={redetect}
           error={error}
         />
-
+  
         <CurrentCard current={data?.current} unit={unit} />
-
+  
         <SegmentedTabs tab={tab} setTab={setTab} />
-
+  
         <ChartCard
           tab={tab}
           unit={unit}
@@ -154,13 +154,19 @@ export default function HomeScreen() {
           dailyChartDataMax={dailyChartDataMax}
           dailyChartDataMin={dailyChartDataMin}
         />
-
+  
+        {tab === "hourly" ? (
+          <HourlyList hourlyItems={hourlyItems} unit={unit} limit={12} />
+        ) : (
+          <DailyForecastList dailyItems={dailyItems} unit={unit} limit={7} />
+        )}
+  
         <Text style={styles.footer}>Pull down to refresh</Text>
       </ScrollView>
-
+  
       {/* Floating Chat Button */}
       <ChatButton onPress={() => setChatVisible(true)} />
-
+  
       {/* Chat Modal - PASS WEATHER DATA */}
       <ChatModal
         visible={chatVisible}
@@ -169,29 +175,7 @@ export default function HomeScreen() {
         placeName={placeName}
         unit={unit}
       />
-
-      <CurrentCard current={data?.current} unit={unit} />
-
-      <SegmentedTabs tab={tab} setTab={setTab} />
-
-      <ChartCard
-        tab={tab}
-        unit={unit}
-        hourlyItems={hourlyItems}
-        dailyItems={dailyItems}
-        hourlyChartData={hourlyChartData}
-        dailyChartDataMax={dailyChartDataMax}
-        dailyChartDataMin={dailyChartDataMin}
-      />
-      {tab === "hourly" ? (
-  <HourlyList hourlyItems={hourlyItems} unit={unit} limit={12} />
-) : (
-  <DailyForecastList dailyItems={dailyItems} unit={unit} limit={7} />
-)}
-
-
-      <Text style={styles.footer}>Pull down to refresh</Text>
-    </ScrollView>
+    </View>
   );
 }
 
