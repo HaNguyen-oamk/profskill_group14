@@ -1,0 +1,327 @@
+================================================================================
+STUDY PROJECT PLAN
+Course: Deepening of Student's Professional Skills
+Oulu University of Applied Sciences (OAMK)
+================================================================================
+
+
+TEAM INFORMATION
+--------------------------------------------------------------------------------
+Team Number   : Group 14
+
+Team Members  :
+  - Ha Nguyen          (Project Lead / AI & Chat Feature Integration)
+  - Chenqi Li          (Location & Data Layer / GPS & API Integration)
+  - Sumaiya Khan       (UI/UX Design / Interface & User Experience)
+  - Bibimaryam Jakipbaeva  (Charts & Screen Integration / Data Visualization)
+
+GitHub Repository : https://github.com/HaNguyen-oamk/profskill_group14
+
+
+================================================================================
+1. STARTING LEVEL OF THE TEAM AND THE PROJECT
+================================================================================
+
+At the beginning of this project, team members had a basic to intermediate
+background in mobile application development. The team had foundational
+knowledge in programming, JavaScript, React, and simple mobile user interfaces.
+However, the team did not have significant experience with more advanced and
+complex topics, including weather data processing, time-based data handling,
+creating interactive charts, or building AI-powered chat features.
+
+The initial version of the application was developed using Kotlin. However,
+the team encountered performance problems when running the application on the
+Android Studio virtual device due to low-specification laptops. Because of this,
+the team decided to switch the project to React Native, which required studying
+and adopting a new framework during the project.
+
+The project was started with the goal of helping all team members improve their
+skills and knowledge by working on a more complex, realistic application that
+can be used in real-world environments.
+
+
+================================================================================
+2. PROJECT DESCRIPTION
+================================================================================
+
+This project focuses on a React Native-based weather application. The
+development process concentrated on enriching the application with more detailed
+and useful weather information. The main improvements include adding hourly and
+daily weather forecasts, chart visualization of weather data, and an AI-based
+chat assistant for users.
+
+The goal is to provide users with clearer and more helpful weather information
+that supports better planning of daily activities.
+
+
+================================================================================
+3. OUTCOME
+================================================================================
+
+Product
+-------
+A cross-platform mobile weather application built with React Native (Expo)
+that delivers real-time weather information, interactive forecast charts, and
+an AI-powered chat assistant, available on iOS, Android, and Web browser.
+
+Final Features Delivered:
+  - Hourly weather forecast for the next 24 hours
+  - Daily weather forecast for the next 7 days
+  - Weather condition icons (sunny, cloudy, rainy, etc.)
+  - Weather data visualization using interactive charts
+    (temperature, precipitation, and wind trends)
+  - Improved overall user experience and navigation
+  - AI-powered weather assistant chat feature
+
+Deployment Status
+-----------------
+The project source code is available on GitHub at:
+  https://github.com/HaNguyen-oamk/profskill_group14
+
+The application can be run locally using React Native and Expo development
+tools. Team members and reviewers can run the app in a web browser, on a
+physical device using the Expo Go app, or on an Android/iOS emulator.
+
+In the future, the application could be published to the Google Play Store
+or the Apple App Store as a standalone mobile application.
+
+
+================================================================================
+4. TOOLS, TECHNOLOGIES, AND LIBRARIES TO LEARN
+================================================================================
+
+Development Tools
+-----------------
+  - React Native       : Cross-platform mobile application framework
+  - Expo SDK 54        : Development platform and build tooling for React Native
+  - JavaScript         : Primary programming language
+  - Node.js            : Runtime environment for development tools
+  - GitHub             : Version control and team collaboration
+
+UI and Navigation
+-----------------
+  - Expo Router        : File-based navigation for React Native screens
+  - React Navigation   : Navigation libraries for bottom tabs and screen flows
+  - Expo Linear Gradient, Expo Blur : Visual effects and UI styling components
+
+APIs and Data Handling
+----------------------
+  - Open-Meteo API     : Free public weather data API, no API key required
+      Endpoint: https://api.open-meteo.com/v1/forecast
+      Provides current, hourly, and 7-day forecast data
+  - Expo Location API  : GPS access, location permissions, and reverse geocoding
+  - Groq API           : AI inference API using the Llama 3.3 70B language model
+
+Data Processing and Logic
+--------------------------
+  - Hourly and daily forecast processing:
+      Reading and transforming raw JSON weather data into forecast models
+  - Time-series data handling:
+      Processing weather data across different time intervals (hourly/daily)
+  - Unit conversion:
+      Converting temperature between Celsius and Fahrenheit
+
+Data Visualization
+------------------
+  - Victory Native 41.20.2 : Charting library for React Native
+  - React Native SVG       : SVG rendering required for chart display
+      Used to visualize temperature trends, precipitation, and wind speed
+      in interactive line charts and bar charts
+
+AI and Chat Feature
+-------------------
+  - Groq API with Llama 3.3 70B model:
+      Enabling natural language understanding and contextual weather responses
+      in the in-app chat assistant
+
+
+================================================================================
+5. REQUIREMENTS AND USER STORIES
+================================================================================
+
+User Stories That Did Not Work at the Start of the Project
+----------------------------------------------------------
+The following user needs were not supported at the beginning:
+
+  1. As a user, I want to see hourly weather forecasts so I can plan my day.
+  2. As a user, I want to see a 7-day weather forecast to plan ahead.
+  3. As a user, I want to understand weather trends using charts.
+  4. As a user, I want to see weather icons to quickly understand conditions.
+  5. As a user, I want to ask questions about the weather using a chat feature.
+
+User Stories Completed by the End of the Project
+------------------------------------------------
+By the end of the project, all of the above user needs were fully supported:
+
+  1. Users can view hourly weather forecasts for the next 24 hours,
+     including temperature, precipitation probability, and wind speed.
+
+  2. Users can view daily weather forecasts for the next 7 days,
+     including minimum and maximum temperatures and precipitation amounts.
+
+  3. Weather data is displayed in interactive charts showing temperature
+     trends, rainfall, and wind speed over time.
+
+  4. Weather conditions are represented with clear weather icons and
+     descriptive labels based on WMO weather codes.
+
+  5. Users can interact with an AI weather assistant by typing questions
+     in natural language and receiving contextual weather-related responses.
+
+  6. Overall user experience is improved with cleaner navigation, loading
+     indicators, pull-to-refresh, and Celsius/Fahrenheit unit toggle.
+
+
+================================================================================
+6. TESTING, CI/CD, AND AI TOOLING
+================================================================================
+
+Testing Level
+-------------
+The project was primarily tested manually throughout the development process.
+The team conducted testing by verifying UI functionality, navigation between
+screens, API data processing and display, chart rendering accuracy, and chat
+assistant response quality. When bugs or issues were found, the team performed
+basic debugging and error handling as part of the development cycle.
+
+Manual test scenarios covered:
+
+  - Current weather display and data accuracy
+  - Hourly and daily forecast rendering
+  - Temperature unit conversion between Celsius and Fahrenheit
+  - GPS location detection and permission handling
+  - Location fallback behavior (for browser environments)
+  - API error and timeout handling
+  - Chart rendering on iOS, Android, and Web
+  - AI chat input and response behavior
+  - App behavior under no internet connection
+  - Pull-to-refresh and manual location refresh
+
+All identified functional issues were resolved before the final submission.
+No automated testing framework was implemented in this phase.
+
+CI/CD
+-----
+The team used GitHub as the primary tool for version control and collaboration.
+Team members worked using individual branches, regular commits, and pull
+requests to merge changes into the main branch. This provided a basic level
+of continuous integration practice. Formal CI/CD pipelines with automated
+builds, automated tests, or automated deployment were not set up in this phase.
+
+In the future, the team plans to add automated testing with tools such as
+Jest and React Native Testing Library, and to introduce automated build and
+deployment pipelines using GitHub Actions and Expo EAS Build.
+
+AI Tooling and Processes
+------------------------
+AI tools were used during this project to support development in several ways:
+
+  - Designing the logic for the weather assistant chat feature
+  - Handling and understanding user questions within the chat
+  - Generating code suggestions and solving technical problems faster
+  - Debugging code and finding solutions for errors
+  - Improving the overall quality of implementation with AI-assisted ideas
+
+AI tools used by the team:
+  - Gemini (Google)
+  - ChatGPT (OpenAI)
+
+Using these tools helped the team save time, overcome knowledge gaps more
+efficiently, and improve the overall quality of the project.
+
+
+================================================================================
+7. CONCLUSION
+================================================================================
+
+This project helped all team members improve their knowledge and skills across
+multiple areas, including weather data processing, data visualization, user
+interface design, API integration, and practical application of artificial
+intelligence. Compared to the initial simple version, the final application
+has significantly more features and better usability.
+
+The project also helped team members develop stronger teamwork, communication,
+and problem-solving skills. Switching from Kotlin to React Native mid-project 
+was a notable challenge that required the team to adapt quickly, learn a new 
+framework, and still deliver all planned features on schedule.
+
+Overall, the project provided valuable and practical experience in modern
+mobile application development that goes beyond what is typically covered in
+standard coursework.
+
+
+================================================================================
+8. MOST USEFUL THINGS TO LEARN
+================================================================================
+
+The most useful learning experience in this project was building a full
+cross-platform mobile application with React Native and Expo from the ground
+up. In particular, integrating a live REST API (Open-Meteo) and processing
+real-time time-series weather data taught practical skills in data handling
+that are directly relevant to real-world development.
+
+Learning to visualize that data with Victory Native charts — displaying
+temperature trends, precipitation, and wind speed in interactive graphs —
+was one of the most valuable new skills gained in this project. It was the
+first time working with a charting library in a mobile context, and going
+through the process of mapping raw API data to visual chart components gave
+a much deeper understanding of how data and UI connect in practice.
+
+Connecting the Groq API to implement an AI-powered chat assistant was
+the most novel skill gained. Building a conversational interface that
+understands natural language queries and returns contextual weather
+responses gave hands-on experience with modern AI integration in mobile
+apps, which goes well beyond standard coursework.
+
+Deploying and running the application across different platforms (web
+browser, Expo Go, and emulator) was also more challenging than expected.
+Managing environment differences, resolving dependency conflicts, and
+ensuring consistent behavior across platforms required significant effort
+and provided practical experience that is difficult to get from coursework
+alone.
+
+Additionally, this semester introduced the concept of unit testing for the
+first time. While the project relied on manual testing throughout, studying
+testing principles and attempting to understand how tools such as Jest and
+React Native Testing Library work was a valuable introduction to software
+quality practices. This is an area the team plans to develop further in
+future projects.
+
+Overall, the combination of API integration, data visualization, deployment
+experience, and an introduction to unit testing represents the most
+practical and transferable set of skills developed during this project.
+
+
+================================================================================
+9. TEAMMATE REVIEW
+================================================================================
+
+Ha Nguyen — OK
+  Led the project and took responsibility for AI and chat feature integration.
+  Coordinated the team effectively, kept the project on track despite the
+  mid-project switch from Kotlin to React Native, and delivered the Groq API
+  chat assistant feature.
+
+Chenqi Li — OK
+  Handled GPS location access, Expo Location API integration, and the data
+  layer connecting the app to the Open-Meteo weather API. Contributed reliably
+  and ensured accurate real-time location and weather data throughout the app.
+
+Sumaiya Khan — OK
+  Responsible for UI/UX design and overall interface quality. Delivered a
+  consistent and clean visual experience across screens, including navigation
+  flow, loading states, and user-facing controls such as the unit toggle.
+
+Bibimaryam Jakipbaeva — OK
+  Worked on chart integration and screen layout for data visualization.
+  Contributed to rendering the interactive temperature, precipitation, and
+  wind speed charts using Victory Native, and helped integrate them into
+  the main application screens.
+
+
+================================================================================
+Document Version : 1.0
+Date             : February 22, 2026
+Team             : Group 14
+Course           : Deepening of Student's Professional Skills, OAMK
+================================================================================

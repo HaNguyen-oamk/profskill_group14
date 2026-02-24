@@ -1,0 +1,395 @@
+================================================================================
+LIVE DEMO VIDEO SCRIPT
+Project: Weather App with AI Chat Assistant — Group 14, OAMK
+Format : Two-part demo — Web browser (laptop) + Expo Go (phone)
+Estimated Duration: ~5 minutes
+================================================================================
+
+NOTE TO SPEAKER:
+  PART 1  — show the app running in the browser on your laptop
+  PART 2  — pick up your phone and show Expo Go with real GPS
+  Key contrast: web shows fallback location (GPS blocked by browser);
+  phone shows your actual real-time location via GPS.
+
+
+[OPENING — 0:00 to 0:25]
+--------------------------------------------------------------------------------
+
+Hey everyone — we are Group 14 from OAMK, and this is our project demo.
+
+We built a weather app with React Native and Expo. It runs on the web,
+on Android, and on iOS — all from one single codebase.
+
+I will show it in two parts: first in the browser on my laptop,
+then on my real phone via Expo Go — so you can see how the same app
+behaves differently on each platform.
+
+Let me start.
+
+[ACTION: Switch to browser / begin screen share on the laptop.]
+
+
+================================================================================
+PART 1 — WEB DEMO ON LAPTOP
+================================================================================
+
+[SECTION 1A: LAYOUT OVERVIEW AND HEADER — 0:25 to 1:00]
+--------------------------------------------------------------------------------
+
+Okay — so let me walk you through the layout first, because I think
+the design is worth a moment.
+
+[ACTION: Show the full app in the browser. Pause so the viewer can take it in.]
+
+The overall look is minimalist and dark — we went for a clean, modern
+aesthetic inspired by iOS weather apps. Dark background, rounded glass
+cards, soft blue accent colors. It feels like a native mobile app even
+here in the browser.
+
+Starting from the top — the header.
+
+[ACTION: Point to the top of the screen.]
+
+On the left side, you have the city name in large bold text. Below that,
+the exact GPS coordinates — latitude and longitude. And below that,
+in red, you can see an error message.
+
+That error says: "Location permission denied. Please enable location
+access in settings."
+
+You can also see the city name says "Hanoi, Vietnam (fallback)".
+
+This is expected. In the browser, GPS access is blocked by the
+computer's security settings. The app cannot get my real location here,
+so it falls back to a hardcoded default — Hanoi, Vietnam — and shows
+that warning message in red.
+
+This is not a bug. This is the browser's security model at work.
+
+[ACTION: Point to the right side of the header.]
+
+On the right side of the header, there are two controls:
+a rounded chip button showing the current temperature unit — °C —
+with a small "Tap" label below it, so the user knows they can tap it
+to switch units.
+And below that, a "Re-detect" button — which tries to re-fetch the
+GPS location when tapped.
+
+On mobile, there is also another way to refresh — I will show you
+that in a moment on the phone.
+
+
+[SECTION 1B: CURRENT WEATHER CARD — 1:00 to 1:30]
+--------------------------------------------------------------------------------
+
+Below the header is the Current Weather Card.
+
+[ACTION: Point to the CURRENT card.]
+
+At the top of the card is the label "CURRENT" in small caps.
+
+Then the big row: on the left, the current temperature in very large
+bold text. On the right, the weather condition — for example,
+"Partly cloudy" — and below it, the "Feels like" temperature.
+
+[ACTION: Point to the 2x2 stat grid below.]
+
+Below that is a 2-by-2 grid of stats:
+  Humidity — Wind speed — Rain probability — Pressure.
+
+Each one is a small card within the card, with the label on top
+and the value in bold below it. If the data is not available,
+it shows a dash.
+
+All of this comes from the Open-Meteo API — a completely free
+public weather API, no API key needed.
+
+
+[SECTION 1C: SEGMENTED TABS AND CHART — 1:30 to 2:00]
+--------------------------------------------------------------------------------
+
+Below the current card, there is a segmented tab control.
+
+[ACTION: Point to the "Hourly / Daily" tab bar.]
+
+Two tabs: "Hourly" and "Daily". By default it starts on Hourly.
+
+Below the tabs is the chart section.
+
+[ACTION: Point to the chart. Pause.]
+
+The title reads "NEXT 24 HOURS TEMPERATURE".
+
+This is a line chart built with Victory Native — a charting library
+for React Native. The X axis shows the time, from midnight through
+11 PM. The Y axis shows the temperature in degrees. You can see the
+temperature curve: lower at night, rising to a peak in the afternoon,
+then dropping again.
+
+Like I mentioned — the data here is for the fallback location,
+Hanoi, Vietnam. On my phone you will see a very different temperature,
+because it will be using my real location.
+
+[ACTION: Click the "Daily" tab.]
+
+If I switch to the Daily tab, the chart updates to show max and min
+temperature lines for the next 7 days.
+
+[ACTION: Click back to "Hourly".]
+
+
+[SECTION 1D: HOURLY LIST — 2:00 to 2:20]
+--------------------------------------------------------------------------------
+
+Below the chart, still on the Hourly tab, is the horizontal hourly list.
+
+[ACTION: Scroll the horizontal list left with the mouse.]
+
+This is a row of cards you can scroll sideways — each card shows:
+the hour, the temperature, the rain probability, and the wind speed.
+
+It gives a quick at-a-glance view of the next several hours without
+needing to read the chart.
+
+[ACTION: Switch to "Daily" tab to show the daily list briefly.]
+
+And on the Daily tab, this becomes a vertical 7-day forecast list —
+each row has a weather icon, the day name, and the high and low
+temperature for that day.
+
+[ACTION: Tap the °C chip in the header to switch to °F.]
+
+I can also toggle between Celsius and Fahrenheit by tapping this chip.
+Every number in the app updates at once — the chart, the hourly cards,
+the daily list, everything.
+
+[ACTION: Tap again to switch back to °C.]
+
+
+[SECTION 1E: AI CHAT ON WEB — 2:20 to 2:45]
+--------------------------------------------------------------------------------
+
+And the last thing on the web — the AI weather assistant.
+
+[ACTION: Tap the floating Chat button at the bottom right. Modal opens.]
+
+A chat overlay appears. I type a question in plain natural language —
+
+[ACTION: Type — "Should I bring an umbrella tomorrow?"]
+
+[PAUSE — wait for the response.]
+
+And it responds with a real, contextual answer. Not just numbers —
+it reads the forecast and gives practical advice.
+
+This is powered by the Groq API using the Llama 3.3 70B language model.
+None of us had ever integrated an AI language model into a mobile app
+before this project.
+
+[ACTION: Close the chat modal.]
+
+Alright — that is the web version. Let me grab my phone.
+
+[ACTION: Put down laptop. Pick up phone. Transition camera to phone screen.]
+
+
+================================================================================
+PART 2 — PHONE DEMO WITH EXPO GO
+================================================================================
+
+[SECTION 2A: REAL GPS LOCATION — 2:45 to 3:20]
+--------------------------------------------------------------------------------
+
+Same app, same codebase — now running on my Android phone through
+Expo Go.
+
+[ACTION: Show the phone screen clearly. The app is already loaded.]
+
+And right away — look at the header.
+
+[ACTION: Point to the city name at the top of the phone screen.]
+
+This time the city name shows my actual current real location —
+Oulu, Finland — and the exact GPS coordinates below it.
+
+No fallback, no error message in red. Just my real location.
+
+That is the difference. The phone has proper GPS hardware, and the app
+requested location permission when it first launched. I tapped allow,
+and from that point on, Expo Location just knows exactly where I am.
+
+This is how a real user experiences the app. You open it, and
+immediately you get live weather for wherever you actually are.
+
+[ACTION: Pull down slowly from the top of the screen to trigger refresh.]
+
+And on mobile — this is something the web version cannot do —
+I can pull down to refresh. The ScrollView has a RefreshControl
+built in. It re-detects my GPS location and fetches fresh data
+from the API.
+
+[PAUSE — wait for the refresh spinner to complete.]
+
+You can also see the "Re-detect" button in the header, which does
+the same thing with a tap.
+
+
+[SECTION 2B: CURRENT WEATHER AND LAYOUT ON PHONE — 3:20 to 3:50]
+--------------------------------------------------------------------------------
+
+Let me walk through the layout on the phone so you can compare.
+
+[ACTION: Point to the current weather card on the phone.]
+
+Same CURRENT card — but this time the temperature is -14.8°C.
+It says "Overcast" as the condition. Humidity 82%, Wind 2.2 km/h.
+
+[ACTION: Gesture at the sleek dark card layout.]
+
+On mobile the minimalist design really comes through. The dark
+background, the rounded glass cards, the clean typography — it feels
+like a polished iOS app, even though this is running on Android.
+That was intentional. We wanted the aesthetic to feel premium
+and native on every platform.
+
+[ACTION: Point to the Hourly / Daily tabs.]
+
+Same tabs — Hourly and Daily. Let me tap Daily briefly.
+
+[ACTION: Tap the "Daily" tab.]
+
+The chart switches, and the list below changes to the 7-day forecast.
+
+[ACTION: Tap back to "Hourly".]
+
+
+[SECTION 2C: SCROLLING THROUGH ON PHONE — 3:50 to 4:20]
+--------------------------------------------------------------------------------
+
+Let me just scroll through the whole thing so you can feel how it
+works on touch.
+
+[ACTION: Scroll down the app slowly with your finger.]
+
+The scroll is smooth. The cards have good spacing — nothing feels
+cramped on the phone screen.
+
+[ACTION: Swipe the horizontal hourly card list sideways.]
+
+The hourly list scrolls sideways with a finger swipe. Each card:
+time, temperature, rain chance, wind speed.
+
+[ACTION: Scroll down to see the "Pull down to refresh" footer text.]
+
+And at the very bottom there is a footer text — "Pull down to refresh"
+— a small affordance hint for first-time users.
+
+
+[SECTION 2D: AI CHAT ON PHONE — 4:20 to 4:50]
+--------------------------------------------------------------------------------
+
+And the chat — one more time on the phone.
+
+[ACTION: Tap the floating "Chat" button at the bottom right.]
+
+You can see the Chat button sits in the bottom-right corner, floating
+above the scroll content. On mobile the keyboard comes up naturally
+when you tap the input.
+
+[ACTION: Type — "What should I wear outside today?"]
+
+[PAUSE — wait for response.]
+
+It knows my real location is Oulu, Finland. It knows the temperature
+is -14.8°C. The answer it gives is actually useful right now —
+not a generic sample.
+
+That is the real value of combining live GPS, live weather data,
+and a language model together.
+
+[ACTION: Close the chat modal.]
+
+
+[CLOSING — 4:50 to 5:00]
+--------------------------------------------------------------------------------
+
+So — that is the full demo. Web and phone.
+
+What we built:
+
+  - Minimalist, iOS-inspired dark design — clean across all platforms
+  - Real-time weather with live GPS on mobile, graceful fallback on web
+  - Current weather card: temperature, condition, feels-like, humidity,
+    wind, rain, pressure
+  - 24-hour temperature chart and 7-day forecast with tab switching
+  - Horizontal hourly scroll and vertical daily forecast list
+  - Pull-to-refresh on mobile, Re-detect button on all platforms
+  - °C / °F toggle that updates everything at once
+  - AI weather assistant powered by Groq and Llama 3.3 70B
+
+Source code:
+  https://github.com/HaNguyen-oamk/profskill_group14
+
+Thanks for watching!
+
+
+================================================================================
+SPEAKER NOTES
+================================================================================
+
+Timing Guide (approximate):
+  0:00 - 0:25    Opening — introduce two-part format
+  0:25 - 1:00    Web: layout overview and header (fallback location, GPS error)
+  1:00 - 1:30    Web: current weather card — temp, condition, stats grid
+  1:30 - 2:00    Web: tabs, Victory Native chart, daily chart
+  2:00 - 2:20    Web: hourly list, daily list, unit toggle
+  2:20 - 2:45    Web: AI chat demo, transition to phone
+  2:45 - 3:20    Phone: real GPS location contrast, pull-to-refresh demo
+  3:20 - 3:50    Phone: current card at real temp, iOS-feel design comment
+  3:50 - 4:20    Phone: scroll through full app on touch
+  4:20 - 4:50    Phone: AI chat with real location context
+  4:50 - 5:00    Closing recap and GitHub URL
+
+Web Screenshot Reality Check:
+  - City name shows: "Hanoi, Vietnam (fallback)"
+  - Coordinates: Lat 21.029, Lon 105.854
+  - Red error: "Location permission denied..."
+  - Temperature: ~26.9°C, Partly cloudy, Feels like 29.1°C
+  - Humidity 74%, Wind 17.9 km/h
+
+Phone Screenshot Reality Check:
+  - City name shows: "Oulu, Finland"
+  - Coordinates: Lat 65.056, Lon 25.473
+  - No error message — clean header
+  - Temperature: -14.8°C, Overcast, Feels...
+  - Humidity 82%, Wind 2.2 km/h
+  - Floating "Chat" button visible bottom-right
+
+Key Points to Hit:
+  - Explain the red error on the web CLEARLY and confidently —
+    it is expected behavior, not a bug.
+  - Pull-to-refresh is PHONE ONLY — do not claim it works on web.
+  - Point out the dramatic temperature difference between the two
+    screenshots — it makes the GPS contrast vivid and real.
+  - The °C chip in the top-right is also how you switch units.
+  - "Pull down to refresh" footer text is visible at the bottom
+    of the scroll — worth mentioning as a UX affordance.
+
+Setup Before Recording:
+  LAPTOP
+  - Have the app fully loaded in browser. Accept or dismiss the
+    GPS permission prompt — either way address it in the script.
+  PHONE
+  - Open in Expo Go, confirm it shows your real location and
+    a real temperature. Grant location permission beforehand.
+  BOTH
+  - Test Groq API chat before recording.
+  - Turn off phone notifications.
+  - Speak slowly — slower than you think you need to.
+
+================================================================================
+Document Version : 4.0  (Layout-accurate rewrite from code + screenshots)
+Date             : February 24, 2026
+Team             : Group 14 — Ha Nguyen, Chenqi Li, Sumaiya Khan, Bibimaryam Jakipbaeva
+Course           : Deepening of Student's Professional Skills, OAMK
+================================================================================

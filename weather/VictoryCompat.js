@@ -1,9 +1,6 @@
 import { Platform } from "react-native";
 
-let VictoryAxis,
-  VictoryChart,
-  VictoryLine,
-  VictoryScatter;
+let VictoryAxis, VictoryChart, VictoryLine, VictoryScatter;
 
 if (Platform.OS === "web") {
   ({
@@ -21,9 +18,4 @@ if (Platform.OS === "web") {
   } = require("victory-native"));
 }
 
-export {
-  VictoryAxis,
-  VictoryChart,
-  VictoryLine,
-  VictoryScatter,
-};
+export { VictoryAxis, VictoryChart, VictoryLine, VictoryScatter };

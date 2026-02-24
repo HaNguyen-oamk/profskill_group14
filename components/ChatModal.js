@@ -1,15 +1,16 @@
 // components/ChatModal.js
 import { useEffect, useRef, useState } from "react";
 import {
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Dimensions,
+    KeyboardAvoidingView,
+    Modal,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
 import { sendMessage } from "../services/groq";
@@ -208,8 +209,9 @@ Could not find weather data for "${cityName}". Politely say so and offer current
     >
       <View style={styles.overlay}>
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
           style={styles.modalContainer}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
         >
           {/* Header */}
           <View style={styles.header}>
@@ -297,8 +299,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#1a1a2e",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    height: "80%",
-    paddingBottom: Platform.OS === "ios" ? 20 : 0,
+    maxHeight: Dimensions.get("window").height * 0.85,
+    minHeight: Dimensions.get("window").height * 0.6,
+    flex: 0,
+    flexShrink: 1,
+    flexGrow: 1,
+    paddingBottom: Platform.OS === "ios" ? 34 : 16,
   },
   header: {
     flexDirection: "row",

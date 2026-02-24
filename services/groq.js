@@ -1,6 +1,6 @@
-//import { GROQ_API_KEY } from "@env";
+import { GROQ_API_KEY } from "@env";
 
-const API_KEY = "";
+const API_KEY = GROQ_API_KEY;
 
 export async function sendMessage(userMessage, conversationHistory = []) {
   try {

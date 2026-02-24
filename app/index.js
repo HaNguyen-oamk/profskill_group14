@@ -1,20 +1,20 @@
 import { useMemo, useState } from "react";
 import {
-  ActivityIndicator,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
+    ActivityIndicator,
+    RefreshControl,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import ChartCard from "../weather/ChartCard";
 import CurrentCard from "../weather/CurrentCard";
-import HeaderBar from "../weather/HeaderBar";
-import SegmentedTabs from "../weather/SegmentedTabs";
-import HourlyList from "../weather/HourlyList";
 import DailyForecastList from "../weather/DailyForecastList";
-
+import HeaderBar from "../weather/HeaderBar";
+import HourlyList from "../weather/HourlyList";
+import SegmentedTabs from "../weather/SegmentedTabs";
 
 import { cToF, chipLabel, formatDay, formatHour } from "../weather/openMeteo";
 import { theme } from "../weather/theme";
@@ -124,7 +124,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.bg }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.bg }}>
       <ScrollView
         style={styles.page}
         contentContainerStyle={styles.content}
@@ -140,11 +140,11 @@ export default function HomeScreen() {
           onRedetect={redetect}
           error={error}
         />
-  
+
         <CurrentCard current={data?.current} unit={unit} />
-  
+
         <SegmentedTabs tab={tab} setTab={setTab} />
-  
+
         <ChartCard
           tab={tab}
           unit={unit}
@@ -154,19 +154,19 @@ export default function HomeScreen() {
           dailyChartDataMax={dailyChartDataMax}
           dailyChartDataMin={dailyChartDataMin}
         />
-  
+
         {tab === "hourly" ? (
           <HourlyList hourlyItems={hourlyItems} unit={unit} limit={12} />
         ) : (
           <DailyForecastList dailyItems={dailyItems} unit={unit} limit={7} />
         )}
-  
+
         <Text style={styles.footer}>Pull down to refresh</Text>
       </ScrollView>
-  
+
       {/* Floating Chat Button */}
       <ChatButton onPress={() => setChatVisible(true)} />
-  
+
       {/* Chat Modal - PASS WEATHER DATA */}
       <ChatModal
         visible={chatVisible}
@@ -175,7 +175,7 @@ export default function HomeScreen() {
         placeName={placeName}
         unit={unit}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -189,7 +189,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "100%",
   },
-  
 
   center: {
     flex: 1,
