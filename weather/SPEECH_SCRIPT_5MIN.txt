@@ -1,0 +1,179 @@
+================================================================================
+  5-MINUTE VIDEO SCRIPT
+  Topic : Prototype Architecture & Code Behavior — Location & Data Layer
+  Name  : Chenqi Li  |  Group 14  |  OAMK University
+  Date  : February 2026
+================================================================================
+
+[TOTAL TARGET: ~750 words | Speaking pace: ~150 words/min | Duration: ~5 min]
+
+--------------------------------------------------------------------------------
+SECTION 1 — INTRODUCTION  [0:00 – 0:30]
+--------------------------------------------------------------------------------
+
+Hi, my name is Chenqi Li, and this video demonstrates my understanding of the
+work I did for Group 14's Weather App project at OAMK University.
+
+Our project is a cross-platform mobile weather application built with React
+Native and Expo. It shows real-time weather, 24-hour and 7-day forecasts using
+interactive charts, and has an AI chat assistant powered by the Groq API.
+The team had four developers — Sumaiya handled UI and design, Bibimaryam built
+the charts and visualization, Ha led the AI integration — and I was responsible
+for the Location and Data Layer, which is the foundation the entire app depends
+on.
+
+
+--------------------------------------------------------------------------------
+SECTION 2 — ARCHITECTURE OVERVIEW  [0:30 – 1:10]
+--------------------------------------------------------------------------------
+
+Before I go into the code, let me explain where my layer fits in the
+architecture.
+
+When the user opens the app, the main screen — app/index.js — starts running.
+It calls two hooks I own: useLocation and useWeather.
+
+useLocation talks to the device's GPS through the Expo Location library. It
+requests permission, reads the latitude and longitude, then calls
+reverseGeocodeName to convert those raw numbers into a human-readable city name
+like "Helsinki, Finland".
+
+Once we have coordinates, useWeather takes over. It calls fetchWeather inside
+openMeteo.js, which builds a URL and talks to the Open-Meteo API — a free,
+no-key-required weather service. The API returns a JSON object with current
+conditions, 24 hours of hourly data, and 7 days of daily data.
+
+That raw JSON then flows up into app/index.js, where it gets transformed into
+view-model arrays for the charts and cards. The helper functions in openMeteo.js
+— like cToF, formatHour, formatDay, and weatherCodeText — are what makes that
+transformation work.
+
+So the chain is: GPS → coordinates → API → raw JSON → UI-ready data.
+My three files own that entire chain.
+
+
+--------------------------------------------------------------------------------
+SECTION 3 — ORIGINAL CODE AND ITS PROBLEMS  [1:10 – 2:30]
+--------------------------------------------------------------------------------
+
+Now let me talk honestly about the original code and what was wrong with it.
+
+The original useLocation hook was only 67 lines. It worked in the happy path —
+when GPS was available — but had serious gaps. There was no loading state, so
+the user had no feedback while the app was detecting location. The catch block
+used a single generic error message for every possible failure. If the user
+denied permission, if GPS timed out, or if geocoding failed — they all looked
+the same. And there was no guard to prevent the user from tapping "detect" twice
+and triggering two simultaneous GPS requests — a classic race condition.
+
+The original openMeteo.js had a different kind of problem. The entire API URL
+was built by concatenating one long hardcoded string. There was no timeout on
+the fetch call, so if the network was slow, the app would silently hang. The
+response from the API was trusted without any validation — if the server
+returned unexpected data, the app would crash later with a confusing error deep
+inside a chart component. Also, the weather code lookup used an array of arrays,
+which is slow and hard to extend, and it was missing over half of the official
+WMO weather codes.
+
+In useWeather.js, the refresh and initial load were handled by the same async
+function with no distinction between states. This meant the user could not tell
+the difference between "first load" and "pull to refresh". More importantly,
+there was no cleanup when the component unmounted. If the user navigated away
+while a fetch was in progress, the hook would try to call setState on an
+unmounted component, which is a memory leak and causes React warnings.
+
+
+--------------------------------------------------------------------------------
+SECTION 4 — THE IMPROVEMENTS: HOW AND WHY  [2:30 – 4:30]
+--------------------------------------------------------------------------------
+
+Let me now walk through the specific improvements and explain the reasoning
+behind each one.
+
+-- useLocation.js --
+
+First, I added a loading state using useState, and a race-condition guard using
+useRef. The ref — called isDetecting — is set to true at the start of detect()
+and reset in the finally block. If detect() is called again while it is already
+running, the function returns immediately. I used a ref instead of state here
+because refs do not trigger re-renders, so this is purely a control mechanism.
+
+Second, I added error type classification. I defined a LocationErrorType object
+with constants for PERMISSION_DENIED, TIMEOUT, UNAVAILABLE, and
+GEOCODING_FAILED. In the catch block, I check the error message against these
+constants and produce a user-friendly sentence. This matters because a developer
+debugging a permission issue needs different information than a user who just
+sees the app.
+
+Third, I wrapped the GPS call in a Promise.race with a 10-second timeout. Why?
+Because on some devices — especially in web browsers — the GPS can silently hang
+forever. Without a timeout, the user would wait indefinitely with no feedback.
+With Promise.race, whichever promise resolves first wins: either the GPS returns
+in time, or the timeout fires and we move to the fallback location.
+
+Fourth, I added coordinate validation after getting the position. Latitude must
+be between -90 and 90, and longitude between -180 and 180. This catches any
+malformed data from the device before it is passed to the API.
+
+-- openMeteo.js --
+
+Here I introduced an API_CONFIG object to centralize the base URL, the timeout
+value, and the forecast day count. This means if we ever need to change the API
+endpoint or extend the forecast to 14 days, we change it in one place.
+
+I replaced the hardcoded string URL with URLSearchParams, which is cleaner and
+automatically handles encoding. I also switched the weather code map from an
+array of arrays to a plain object — lookups are now O(1) instead of O(n), and I
+expanded coverage from 15 to 30-plus official WMO codes.
+
+For the fetch itself, I used the AbortController API to add a 15-second timeout.
+I check the HTTP status code explicitly before parsing JSON. And I added a
+validateWeatherResponse function that confirms the returned object has current,
+hourly, and daily fields before the data is passed upstream. This prevents the
+UI from crashing on unexpected API changes.
+
+-- useWeather.js --
+
+I separated the loading state into two: isLoading for the initial fetch, and
+refreshing for pull-to-refresh. This lets the UI show a full-screen spinner on
+first load but keep the existing data visible during a refresh — which feels
+much more natural to the user.
+
+I added a lastCoordsRef to cache the last successfully fetched coordinates. The
+coordinatesChanged helper checks if the new coordinates differ by more than 0.01
+degrees, which is roughly one kilometer. If the coordinates have not changed
+significantly, the hook skips the API call and reuses cached data. This prevents
+unnecessary network requests if the GPS shifts by a few meters.
+
+Finally, I added isMountedRef and a cleanup function in useEffect. When the
+component unmounts, the ref is set to false, and all state updates inside the
+async load function are guarded by this ref. This completely eliminates the
+memory leak that existed before.
+
+I also wrapped refresh and reload in useCallback, so their references stay
+stable between renders and do not cause unnecessary child re-renders.
+
+
+--------------------------------------------------------------------------------
+SECTION 5 — CONCLUSION  [4:30 – 5:00]
+--------------------------------------------------------------------------------
+
+To summarize: my three files form the data pipeline that every other part of the
+app depends on. The original code worked under ideal conditions but failed
+silently in real-world scenarios — slow networks, denied permissions, rapid
+user interactions.
+
+The improvements I made were not about adding features — they were about making
+the existing behavior reliable, understandable, and safe. Every change has a
+clear reason: the ref prevents race conditions, the timeout prevents hanging, the
+validation prevents cascading crashes, and the cleanup prevents memory leaks.
+
+Understanding why each piece of code exists is, I think, the most important
+skill in software development. Thank you for watching.
+
+================================================================================
+[END OF SCRIPT]
+[Word count: ~820 words | Estimated duration: 5 min 00 sec - 5 min 30 sec]
+[Tip: Slow down slightly in Section 4 when referencing code. Section 1-2 can be
+spoken at a comfortable pace. Do not rush the conclusion.]
+================================================================================
